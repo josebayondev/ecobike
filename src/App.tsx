@@ -1,8 +1,18 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+import Home from './pages/Home';
+import BookingForm from './pages/BookingForm';
+import Payments from './pages/Payments';
+
 function App() {
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center">
-      <h1 className="text-white text-2xl font-bold">Hola EcoBike</h1>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/booking" element={<BookingForm />} />
+        <Route path="/payments" element={<Payments />} />
+      </Routes>
+    </Router>
   );
 }
 
