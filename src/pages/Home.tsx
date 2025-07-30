@@ -1,22 +1,20 @@
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import Layout from '../components/Layout';
+import { useNavigate } from 'react-router-dom'; // For the navigation
+import { useState } from 'react'; // For managing state
+import Layout from '../components/Layout'; 
 import NewUserModal from '../components/NewUserModal';
 
 export default function Home() {
-  const navigate = useNavigate();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
-  const [loginData, setLoginData] = useState({
+  const navigate = useNavigate(); // variable for  navigation
+  const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal visibility
+  const openModal = () => setIsModalOpen(true); //function to open modal
+  const closeModal = () => setIsModalOpen(false); //function to close modal
+  const [loginData, setLoginData] = useState({  // Initial state for login data
     username: '',
     password: ''
   });
 
+  // Handle input changes for login form
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-
-
-
     const { name, value } = e.target;
     setLoginData(prev => ({
       ...prev,
@@ -24,11 +22,11 @@ export default function Home() {
     }));
   }
 
+  // Handle login submission
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     // Aquí puedes agregar la lógica de autenticación
     console.log('Datos de login:', loginData);
-    
     // Por ahora, simplemente navegamos a booking si hay datos
     if (loginData.username && loginData.password) {
       navigate('/booking');

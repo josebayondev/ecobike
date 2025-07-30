@@ -78,7 +78,7 @@ export default function NewUserModal({ isOpen, onClose }: NewUserModalProps) {
 
   return (
     <div 
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+      className="fixed inset-0 bg-black bg-opacity-20 flex items-center justify-center z-50"
       onClick={handleBackdropClick}
     >
       <div className="bg-white rounded-lg p-6 w-96 max-w-md mx-4 relative">
@@ -143,6 +143,7 @@ export default function NewUserModal({ isOpen, onClose }: NewUserModalProps) {
               required
             />
           </div>
+          
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Contraseña
