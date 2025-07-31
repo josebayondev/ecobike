@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export interface NewUserModalProps {
   isOpen: boolean;
@@ -6,6 +7,7 @@ export interface NewUserModalProps {
 }
 
 export default function NewUserModal({ isOpen, onClose }: NewUserModalProps) {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -64,6 +66,9 @@ export default function NewUserModal({ isOpen, onClose }: NewUserModalProps) {
     setFormData({ fullName: '', email: '', phone: '', password: '' });
     setErrors({ password: '' });
     onClose();
+    
+    // Navegar a BookingForm después del registro exitoso
+    navigate('/booking');
   };
 
   const handleBackdropClick = (e: React.MouseEvent) => {

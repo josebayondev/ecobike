@@ -1,12 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
+import MapView from '../components/MapView';
 
 export default function BookingForm() {
   const navigate = useNavigate();
 
   return (
     <Layout>
-      <h1 className="text-2xl font-semibold mb-6">Formulario y Mapa aquí</h1>
+      <h1 className="text-2xl font-semibold mb-6">Bienvenido a EcoBike, Jose</h1>
       {/* Aquí pondrás formulario y mapa */}
       <button
         onClick={() => navigate('/payments')}
@@ -14,6 +15,7 @@ export default function BookingForm() {
       >
         Ir a Pagos
       </button>
+      <MapView />
     </Layout>
   );
 }

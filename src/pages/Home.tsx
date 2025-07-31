@@ -27,13 +27,8 @@ export default function Home() {
     e.preventDefault();
     // Aquí puedes agregar la lógica de autenticación
     console.log('Datos de login:', loginData);
-    // Por ahora, simplemente navegamos a booking si hay datos
-    if (loginData.username && loginData.password) {
-      navigate('/booking');
-    } else {
-      navigate('/booking');
-      //alert('Por favor, completa todos los campos');
-    }
+    // Navegar a booking cuando se haga clic en Acceder
+    navigate('/booking');
   };
 
   return (
