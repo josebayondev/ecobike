@@ -3,27 +3,32 @@ import { useState } from 'react'; // For managing state
 import Layout from '../components/Layout'; 
 import NewUserModal from '../components/NewUserModal';
 
+interface LoginData {
+  username: string;
+  password: string;
+}
+
 export default function Home() {
   const navigate = useNavigate(); // variable for  navigation
-  const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal visibility
-  const openModal = () => setIsModalOpen(true); //function to open modal
-  const closeModal = () => setIsModalOpen(false); //function to close modal
-  const [loginData, setLoginData] = useState({  // Initial state for login data
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // State to manage modal visibility
+  const openModal = (): void => setIsModalOpen(true); //function to open modal
+  const closeModal = (): void => setIsModalOpen(false); //function to close modal
+  const [loginData, setLoginData] = useState<LoginData>({  // Initial state for login data
     username: '',
     password: ''
   });
 
   // Handle input changes for login form
-  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>): void {
     const { name, value } = e.target;
-    setLoginData(prev => ({
+    setLoginData((prev: LoginData) => ({
       ...prev,
       [name]: value
     }));
   }
 
   // Handle login submission
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     // Aquí puedes agregar la lógica de autenticación
     console.log('Datos de login:', loginData);
