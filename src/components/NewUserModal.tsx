@@ -1,5 +1,15 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+
+interface FormData {
+  fullName: string;
+  email: string;
+  phone: string;
+  password: string;
+}
+
+interface FormErrors {
+  password: string;
+}
 
 export interface NewUserModalProps {
   isOpen: boolean;
@@ -7,15 +17,14 @@ export interface NewUserModalProps {
 }
 
 export default function NewUserModal({ isOpen, onClose }: NewUserModalProps) {
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     fullName: '',
     email: '',
     phone: '',
     password: ''
   });
 
-  const [errors, setErrors] = useState({
+  const [errors, setErrors] = useState<FormErrors>({
     password: ''
   });
 
@@ -29,7 +38,7 @@ export default function NewUserModal({ isOpen, onClose }: NewUserModalProps) {
     return '';
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -46,7 +55,7 @@ export default function NewUserModal({ isOpen, onClose }: NewUserModalProps) {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     
     // Validar contraseña antes de enviar
@@ -66,12 +75,9 @@ export default function NewUserModal({ isOpen, onClose }: NewUserModalProps) {
     setFormData({ fullName: '', email: '', phone: '', password: '' });
     setErrors({ password: '' });
     onClose();
-    
-    // Navegar a BookingForm después del registro exitoso
-    navigate('/booking');
   };
 
-  const handleBackdropClick = (e: React.MouseEvent) => {
+  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>): void => {
     if (e.target === e.currentTarget) {
       // Limpiar errores al cerrar
       setErrors({ password: '' });
