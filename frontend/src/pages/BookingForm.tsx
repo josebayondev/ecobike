@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
 import { type Bike } from "../types/bike";
-import bikesData from "../data/bikes.json";
 
 interface BatteryBarProps {
   battery: number;
@@ -23,11 +22,30 @@ const BatteryBar = ({ battery }: BatteryBarProps) => (
 export default function BookingForm(): React.JSX.Element {
   const [bikes, setBikes] = useState<Bike[]>([]);
   const [selectedBike, setSelectedBike] = useState<Bike | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
   useEffect((): void => {
-    // Cargar datos de bicicletas con type assertion
-    setBikes(bikesData.bikes as Bike[]);
+    const fetchBikes = async (): Promise<void> => {
+      try {
+        setLoading(true);
+        const response = await fetch('http://localhost:8000/bikes');
+        
+        if (!response.ok) {
+          throw new Error('Error al cargar las bicicletas');
+        }
+        
+        const data = await response.json();
+        setBikes(data.bikes);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Error desconocido');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBikes();
   }, []);
 
   const handleSelectBike = (bike: Bike): void => {
@@ -50,17 +68,39 @@ export default function BookingForm(): React.JSX.Element {
         <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
           Selecciona tu EcoBike
         </h1>
-        {/* Mostrar la bicicleta seleccionada */}
-        {selectedBike && (
-          <div className="mb-6 p-4 bg-green-100 rounded-lg border border-green-300">
-            <h3 className="text-lg font-semibold text-green-800">
-              EcoBike seleccionada: {selectedBike.name}
-            </h3>
-            <p className="text-green-700">
-              {selectedBike.model} -  {selectedBike.location} - €{selectedBike.pricePerHour}/hora
-            </p>
+
+        {/* Estados de carga y error */}
+        {loading && (
+          <div className="text-center py-8">
+            <p className="text-gray-600">Cargando bicicletas...</p>
           </div>
         )}
+
+        {error && (
+          <div className="text-center py-8">
+            <p className="text-red-600">Error: {error}</p>
+            <button 
+              onClick={() => window.location.reload()} 
+              className="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            >
+              Reintentar
+            </button>
+          </div>
+        )}
+
+        {!loading && !error && (
+          <>
+            {/* Mostrar la bicicleta seleccionada */}
+            {selectedBike && (
+              <div className="mb-6 p-4 bg-green-100 rounded-lg border border-green-300">
+                <h3 className="text-lg font-semibold text-green-800">
+                  EcoBike seleccionada: {selectedBike.name}
+                </h3>
+                <p className="text-green-700">
+                  {selectedBike.model} -  {selectedBike.location} - €{selectedBike.pricePerHour}/hora
+                </p>
+              </div>
+            )}
 
         {/* Lista de bicicletas disponibles */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -129,6 +169,8 @@ export default function BookingForm(): React.JSX.Element {
               Continuar con la reserva
             </button>
           </div>
+        )}
+          </>
         )}
       </div>
     </Layout>
