@@ -3,15 +3,13 @@ import leftBike from "../assets/img/leftBike.png";
 import rightBike from "../assets/img/rightBike.png";
 import logo from "../assets/img/logo.png";
 import fondo from "../assets/img/fondo.jpg";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 interface LayoutProps {
   children: ReactNode;
 }
 
 export default function Layout({ children }: LayoutProps) {
-  const navigate = useNavigate();
-
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-6 relative">
       <h1 className="text-5xl font-bold text-center mb-6 text-gray-800">
@@ -25,12 +23,12 @@ export default function Layout({ children }: LayoutProps) {
       />
 
       {/* Logo en esquina superior izquierda */}
-      <button
-        onClick={() => navigate("/")}
-        className="absolute top-4 left-4 z-20 bg-transparent border-0 p-0 cursor-pointer"
+      <Link
+        to="/"
+        className="absolute top-4 left-4 z-20 block w-20"
       >
-        <img src={logo} alt="EcoBike Logo" className="w-20 h-auto" />
-      </button>
+        <img src={logo} alt="EcoBike Logo" className="w-full h-auto" />
+      </Link>
 
       {/* Imagen izquierda */}
       <img
